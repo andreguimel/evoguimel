@@ -1,0 +1,73 @@
+version: "3.8"
+
+services:
+  api:
+    image: evoapicloud/evolution-api:latest
+    restart: always
+    depends_on:
+      - redis
+      - evolution-postgres
+    ports:
+      - "8081:8080" # API exposta na porta 8081 do host
+    volumes:
+      - evolution_instances_github:/evolution/instances
+    networks:
+      - evolution-net-github
+    env_file:
+      - .env.github
+    expose:
+      - "8080"
+
+  frontend:
+    image: evoapicloud/evolution-manager:latest
+    restart: always
+    ports:
+      - "3100:80" # Manager exposto na porta 3100 do host
+    networks:
+      - evolution-net-github
+
+  redis:
+    image: redis:latest
+    restart: always
+    command: >
+      redis-server --port 6379 --appendonly yes
+    volumes:
+      - evolution_redis_github:/data
+    networks:
+      evolution-net-github:
+        aliases:
+          - evolution-redis # hostname interno para uso no .env.github
+    expose:
+      - "6379"
+
+  evolution-postgres:
+    image: postgres:15
+    restart: always
+    env_file:
+      - .env.github
+    command:
+      - postgres
+      - -c
+      - max_connections=1000
+      - -c
+      - listen_addresses=*
+    environment:
+      - POSTGRES_DB=${POSTGRES_DATABASE}
+      - POSTGRES_USER=${POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data_github:/var/lib/postgresql/data
+    networks:
+      - evolution-net-github
+    expose:
+      - "5432"
+
+volumes:
+  evolution_instances_github:
+  evolution_redis_github:
+  postgres_data_github:
+
+networks:
+  evolution-net-github:
+    name: evolution-net-github
+    driver: bridge

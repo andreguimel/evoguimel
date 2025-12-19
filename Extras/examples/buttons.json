@@ -1,0 +1,10 @@
+{
+  "number": "5599999999999",
+  "title": "Escolha uma opção",
+  "description": "Selecione abaixo:",
+  "footer": "AtendAI",
+  "buttons": [
+    { "type": "reply", "id": "opt1", "displayText": "Opção 1" },
+    { "type": "reply", "id": "opt2", "displayText": "Opção 2" }
+  ]
+}

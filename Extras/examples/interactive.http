@@ -1,0 +1,101 @@
+### Enviar botões de resposta (até 3, sem misturar outros tipos)
+POST {{baseUrl}}/message/sendButtons/{{instanceName}}
+Content-Type: application/json
+apikey: {{apiKey}}
+
+{
+  "number": "5599999999999",
+  "title": "Escolha uma opção",
+  "description": "Selecione abaixo:",
+  "footer": "AtendAI",
+  "buttons": [
+    { "type": "reply", "id": "opt1", "displayText": "Opção 1" },
+    { "type": "reply", "id": "opt2", "displayText": "Opção 2" },
+    { "type": "reply", "id": "opt3", "displayText": "Opção 3" }
+  ]
+}
+
+### Enviar botão de URL
+POST {{baseUrl}}/message/sendButtons/{{instanceName}}
+Content-Type: application/json
+apikey: {{apiKey}}
+
+{
+  "number": "5599999999999",
+  "title": "Acesse:",
+  "buttons": [
+    { "type": "url", "displayText": "Abrir site", "url": "https://example.com" }
+  ]
+}
+
+### Enviar botão de chamada
+POST {{baseUrl}}/message/sendButtons/{{instanceName}}
+Content-Type: application/json
+apikey: {{apiKey}}
+
+{
+  "number": "5599999999999",
+  "title": "Contato",
+  "buttons": [
+    { "type": "call", "displayText": "Ligar", "phoneNumber": "+5511999999999" }
+  ]
+}
+
+### Enviar botão de copiar código
+POST {{baseUrl}}/message/sendButtons/{{instanceName}}
+Content-Type: application/json
+apikey: {{apiKey}}
+
+{
+  "number": "5599999999999",
+  "title": "Cupom",
+  "buttons": [
+    { "type": "copy", "displayText": "Copiar código", "copyCode": "ABC123" }
+  ]
+}
+
+### Enviar botão PIX (apenas 1, sem misturar)
+POST {{baseUrl}}/message/sendButtons/{{instanceName}}
+Content-Type: application/json
+apikey: {{apiKey}}
+
+{
+  "number": "5599999999999",
+  "title": "Pagamento",
+  "buttons": [
+    { "type": "pix", "name": "Minha Loja", "key": "chave@pix.com", "keyType": "email" }
+  ]
+}
+
+### Enviar lista (Single Select)
+POST {{baseUrl}}/message/sendList/{{instanceName}}
+Content-Type: application/json
+apikey: {{apiKey}}
+
+{
+  "number": "5599999999999",
+  "title": "Lista de opções",
+  "description": "Escolha um item",
+  "buttonText": "Ver opções",
+  "footerText": "AtendAI",
+  "sections": [
+    {
+      "title": "Grupo A",
+      "rows": [
+        { "title": "Item 1", "rowId": "item1", "description": "Descrição opcional" },
+        { "title": "Item 2", "rowId": "item2" }
+      ]
+    },
+    {
+      "title": "Grupo B",
+      "rows": [
+        { "title": "Item 3", "rowId": "item3" }
+      ]
+    }
+  ]
+}
+
+### Variáveis sugeridas
+# {{baseUrl}}: ex. http://localhost:3000
+# {{instanceName}}: nome da instância criada
+# {{apiKey}}: token global de API (header "apikey")
